@@ -22,7 +22,7 @@ const documentTypes = [
   "Cargo Readiness Notice",
 ];
 
-let shipments = [
+let shipments = [];
   {
     shipment_id: "SHIP-2025-10-001",
     mode: "Sea Freight",

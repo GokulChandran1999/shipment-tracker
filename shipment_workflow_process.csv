@@ -1,0 +1,23 @@
+Step,Stage,Task,Responsible
+1,Week -2,Receive readiness date from shipper,Buyer/Operations Team
+2,Week -2,Request cargo details from shipper,Buyer/Operations Team
+3,Week -2,Request chamber attested documents from shipper,Buyer/Operations Team
+4,After Cargo Details Received,"Review cargo details (weight, dimensions, HS codes)",Buyer/Operations Team
+5,After Cargo Details Received,Prepare enquiry for freight forwarders,Buyer/Operations Team
+6,After Cargo Details Received,Send enquiry to local freight forwarder,Buyer/Operations Team
+7,After Cargo Details Received,Receive quotes from freight forwarders,Buyer/Operations Team
+8,After Cargo Details Received,Compare quotes and select best option,Buyer/Operations Team
+9,After Cargo Details Received,Award shipment to selected forwarder,Buyer/Operations Team
+10,Air Freight Specific,Request collection date from forwarder,Buyer/Operations Team
+11,Air Freight Specific,Request flight booking details,Buyer/Operations Team
+12,Air Freight Specific,Request chamber attested shipping documents,Buyer/Operations Team
+13,Air Freight Specific,Confirm materials collected from shipper,Buyer/Operations Team
+14,Air Freight Specific,Track flight departure,Buyer/Operations Team
+15,Air Freight Specific,Track arrival at destination airport,Buyer/Operations Team
+16,Sea Freight Specific,Request collection date from forwarder,Buyer/Operations Team
+17,Sea Freight Specific,Request vessel booking confirmation,Buyer/Operations Team
+18,Sea Freight Specific,Request chamber attested shipping documents,Buyer/Operations Team
+19,Sea Freight Specific,Confirm materials collected from shipper,Buyer/Operations Team
+20,Sea Freight Specific,Track vessel sailing confirmation,Buyer/Operations Team
+21,Sea Freight Specific,Track container status (every 7 days),Buyer/Operations Team
+22,Sea Freight Specific,Monitor vessel arrival,Buyer/Operations Team

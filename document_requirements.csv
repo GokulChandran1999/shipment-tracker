@@ -1,0 +1,13 @@
+Document_Name,Stage,Provider,When_Required
+Commercial Invoice,Initial Documentation,Shipper/Supplier,Week -2 (with cargo details)
+Packing List,Initial Documentation,Shipper/Supplier,Week -2 (with cargo details)
+Certificate of Origin (Chamber Attested),Pre-shipment (Chamber Attestation),Chamber of Commerce,Week -2 (before shipment)
+Export License (if applicable),Pre-shipment,Export Authority,Before export clearance
+Air Waybill (AWB),Air Freight,Freight Forwarder/Airline,After booking (air freight)
+Bill of Lading (B/L),Sea Freight,Freight Forwarder/Shipping Line,After booking (sea freight)
+Booking Confirmation,Booking Stage,Freight Forwarder,After awarding shipment
+Customs Declaration,Customs Clearance,Customs Broker,Before export/import
+Cargo Readiness Notice,Collection Stage,Shipper,Before collection
+Vessel Sailing Confirmation,Sea Freight Tracking,Shipping Line,After vessel departure
+Flight Booking Confirmation,Air Freight Tracking,Airline/Freight Forwarder,After flight booking
+Collection Confirmation,Collection Stage,Freight Forwarder,On collection day

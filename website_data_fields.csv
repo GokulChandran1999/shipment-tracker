@@ -1,0 +1,28 @@
+Category,Field_Name,Data_Type,Required
+Shipment Info,Shipment ID,Text,Yes
+Shipment Info,Shipment Mode (Air/Sea),Dropdown,Yes
+Shipment Info,Incoterm,Text,Yes
+Shipment Info,Readiness Date,Date,Yes
+Shipment Info,Status,Dropdown,Yes
+Shipper Details,Shipper Name,Text,Yes
+Shipper Details,Shipper Address,Text,Yes
+Shipper Details,Shipper Contact,Text,Yes
+Cargo Details,Cargo Description,Text,Yes
+Cargo Details,HS Code,Text,Yes
+Cargo Details,Weight (Kg),Number,Yes
+Cargo Details,Volume (CBM),Number,Yes
+Cargo Details,Number of Packages,Number,Yes
+Booking Info,Freight Forwarder Name,Text,Yes
+Booking Info,Quote Amount,Number,Yes
+Booking Info,Booking Number,Text,No
+Booking Info,Booking Date,Date,Yes
+Collection Info,Collection Date,Date,Yes
+Collection Info,Collection Confirmation,Checkbox,Yes
+Tracking Info,Container Number,Text,For Sea
+Tracking Info,Vessel Name,Text,For Sea
+Tracking Info,Flight Number,Text,For Air
+Tracking Info,Sailing/Departure Date,Date,Yes
+Tracking Info,ETA (Estimated Time of Arrival),Date,Yes
+Documents,Commercial Invoice,File Upload,Yes
+Documents,Chamber Attested Certificate,File Upload,Yes
+Documents,AWB/B/L Number,Text,Yes

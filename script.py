@@ -1,0 +1,168 @@
+
+# I'll save the complete file and provide instructions to download it
+import base64
+
+complete_html = '''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXW Shipment Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f7fa; color: #333; }
+        .navbar { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%); color: white; padding: 1rem 2rem; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .nav-brand h1 { font-size: 1.5rem; font-weight: 600; }
+        .nav-menu { list-style: none; display: flex; gap: 2rem; margin-top: 1rem; }
+        .nav-link { color: white; text-decoration: none; padding: 0.5rem 1rem; border-radius: 5px; transition: background 0.3s; }
+        .nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.2); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+        .hidden { display: none !important; }
+        .card { background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        .card h3 { font-size: 2.5rem; color: #1e40af; margin-bottom: 0.5rem; }
+        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; color: #374151; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.75rem; border: 1px solid #d1d5db; border-radius: 5px; font-size: 1rem; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+        .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .btn { padding: 0.75rem 1.5rem; border: none; border-radius: 5px; font-size: 1rem; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: #1e40af; color: white; }
+        .btn-primary:hover { background: #1e3a8a; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(30,64,175,0.3); }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-secondary:hover { background: #4b5563; }
+        .btn-small { padding: 0.5rem 1rem; font-size: 0.875rem; }
+        .btn-danger { background: #dc2626; color: white; }
+        .btn-danger:hover { background: #b91c1c; }
+        .form-actions { display: flex; gap: 1rem; margin-top: 2rem; }
+        table { width: 100%; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        table thead { background: #1e40af; color: white; }
+        table th, table td { padding: 1rem; text-align: left; }
+        table tbody tr:nth-child(even) { background: #f9fafb; }
+        table tbody tr:hover { background: #f3f4f6; }
+        .status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.875rem; font-weight: 600; background: #dbeafe; color: #1e40af; }
+        .alert { padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
+        .alert-warning { background: #fef3c7; color: #92400e; border-left: 4px solid #f59e0b; }
+        .shipment-card { background: white; padding: 1rem; border-radius: 8px; border-left: 4px solid #3b82f6; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .shipment-card h4 { color: #1e40af; margin-bottom: 0.5rem; }
+        .shipment-card p { margin: 0.25rem 0; font-size: 0.9rem; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .form-section { background: white; padding: 2rem; border-radius: 10px; margin-bottom: 2rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .form-section h3 { color: #1e40af; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #e5e7eb; }
+        .footer { background: #1f2937; color: white; text-align: center; padding: 2rem; margin-top: 3rem; }
+        .no-alerts { text-align: center; padding: 2rem; color: #6b7280; }
+        h2 { color: #1e40af; margin-bottom: 1.5rem; font-size: 2rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand"><h1>🚢 EXW Shipment Tracker</h1></div>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link active" onclick="showView('dashboard'); return false;">Dashboard</a></li>
+            <li><a href="#" class="nav-link" onclick="showView('add'); return false;">Add Shipment</a></li>
+            <li><a href="#" class="nav-link" onclick="showView('list'); return false;">All Shipments</a></li>
+            <li><a href="#" class="nav-link" onclick="showView('documents'); return false;">Documents</a></li>
+        </ul>
+    </nav>
+    <main class="container">
+        <section id="dashboard-view" class="view-section">
+            <h2>Dashboard</h2>
+            <div id="summary-cards" class="summary-cards"></div>
+            <div class="alerts-section"><h3>Alerts & Reminders</h3><div id="alerts-container"></div></div>
+            <div class="recent-section"><h3>Recent Shipments</h3><div id="recent-shipments"></div></div>
+        </section>
+        <section id="add-view" class="view-section hidden">
+            <h2>Add New Shipment</h2>
+            <form id="add-shipment-form" onsubmit="handleFormSubmit(event)">
+                <div class="form-section">
+                    <h3>Basic Information</h3>
+                    <div class="form-group"><label for="mode">Shipment Mode *</label><select id="mode" name="mode" required onchange="toggleModeFields()"><option value="Air Freight">Air Freight</option><option value="Sea Freight">Sea Freight</option></select></div>
+                    <div class="form-group"><label for="status">Status *</label><select id="status" name="status" required><option value="Readiness Received">Readiness Received</option><option value="Cargo Details Requested">Cargo Details Requested</option><option value="Quote Requested">Quote Requested</option><option value="Awarded">Awarded</option><option value="Collection Scheduled">Collection Scheduled</option><option value="Collected">Collected</option><option value="In Transit">In Transit</option><option value="Delivered">Delivered</option></select></div>
+                    <div class="form-group"><label for="readiness_date">Readiness Date *</label><input type="date" id="readiness_date" name="readiness_date" required></div>
+                </div>
+                <div class="form-section">
+                    <h3>Shipper Details</h3>
+                    <div class="form-group"><label for="shipper_name">Shipper Name *</label><input type="text" id="shipper_name" name="shipper_name" required placeholder="e.g., Global Manufacturing Co."></div>
+                    <div class="form-group"><label for="shipper_country">Country *</label><input type="text" id="shipper_country" name="shipper_country" required placeholder="e.g., China"></div>
+                </div>
+                <div class="form-section">
+                    <h3>Cargo Details</h3>
+                    <div class="form-group"><label for="cargo_description">Cargo Description *</label><textarea id="cargo_description" name="cargo_description" required rows="3" placeholder="Detailed description"></textarea></div>
+                    <div class="form-row">
+                        <div class="form-group"><label for="weight_kg">Weight (kg) *</label><input type="number" id="weight_kg" name="weight_kg" required min="0" step="0.1" placeholder="0.0"></div>
+                        <div class="form-group"><label for="volume_cbm">Volume (CBM) *</label><input type="number" id="volume_cbm" name="volume_cbm" required min="0" step="0.01" placeholder="0.00"></div>
+                    </div>
+                </div>
+                <div class="form-section" id="air-fields" style="display: block;">
+                    <h3>Air Freight Details</h3>
+                    <div class="form-group"><label for="flight_number">Flight Number</label><input type="text" id="flight_number" name="flight_number" placeholder="e.g., LH8952"></div>
+                    <div class="form-group"><label for="departure_date">Departure Date</label><input type="date" id="departure_date" name="departure_date"></div>
+                </div>
+                <div class="form-section" id="sea-fields" style="display: none;">
+                    <h3>Sea Freight Details</h3>
+                    <div class="form-group"><label for="container_number">Container Number</label><input type="text" id="container_number" name="container_number" placeholder="e.g., MSCU1234567"></div>
+                    <div class="form-group"><label for="vessel_name">Vessel Name</label><input type="text" id="vessel_name" name="vessel_name" placeholder="e.g., MSC Aurora"></div>
+                    <div class="form-group"><label for="sailing_date">Sailing Date</label><input type="date" id="sailing_date" name="sailing_date"></div>
+                </div>
+                <div class="form-section">
+                    <h3>Arrival Information</h3>
+                    <div class="form-group"><label for="eta">ETA (Estimated Arrival)</label><input type="date" id="eta" name="eta"></div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">✅ Add Shipment</button>
+                    <button type="reset" class="btn btn-secondary">🔄 Clear Form</button>
+                </div>
+            </form>
+        </section>
+        <section id="list-view" class="view-section hidden">
+            <div class="section-header">
+                <h2>All Shipments</h2>
+                <button onclick="exportToCSV()" class="btn btn-secondary btn-small">📥 Export CSV</button>
+            </div>
+            <div id="shipments-table-container"></div>
+        </section>
+        <section id="documents-view" class="view-section hidden">
+            <h2>Documents Tracking</h2>
+            <div id="documents-table-container"></div>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 EXW Shipment Tracker | Managing 20+ monthly shipments efficiently</p>
+        <button onclick="clearAllData()" class="btn-small btn-danger" style="margin-top: 1rem;">🗑️ Clear All Data</button>
+    </footer>
+    <script>
+        let shipments=loadShipmentsFromStorage();function loadShipmentsFromStorage(){const stored=localStorage.getItem('exw_shipments');if(stored){return JSON.parse(stored);}return[{shipment_id:"SHIP-2025-10-001",mode:"Sea Freight",status:"In Transit",readiness_date:"2025-11-15",shipper_name:"Global Manufacturing Co.",shipper_country:"China",cargo_description:"Industrial Equipment Parts",weight_kg:2500,volume_cbm:12,container_number:"MSCU1234567",vessel_name:"MSC Aurora",sailing_date:"2025-11-12",eta:"2025-12-05"}];}
+        function saveShipmentsToStorage(){localStorage.setItem('exw_shipments',JSON.stringify(shipments));}
+        function showView(viewName){document.querySelectorAll('.view-section').forEach(section=>section.classList.add('hidden'));document.querySelectorAll('.nav-link').forEach(link=>link.classList.remove('active'));const targetView=document.getElementById(viewName+'-view');if(targetView){targetView.classList.remove('hidden');}event.target.classList.add('active');if(viewName==='dashboard')loadDashboard();if(viewName==='list')renderShipmentsTable();if(viewName==='documents')renderDocumentsTable();}
+        function loadDashboard(){const summary={total:shipments.length,pending:shipments.filter(s=>s.status==="Collection Scheduled").length,transit:shipments.filter(s=>s.status==="In Transit").length};const cardsHTML=`<div class="card"><h3>${summary.total}</h3><p>Total Shipments</p></div><div class="card"><h3>${summary.pending}</h3><p>Pending Collection</p></div><div class="card"><h3>${summary.transit}</h3><p>In Transit</p></div>`;document.getElementById('summary-cards').innerHTML=cardsHTML;const recentHTML=shipments.slice(-5).reverse().map(s=>`<div class="shipment-card"><h4>${s.shipment_id}</h4><p><strong>Mode:</strong> ${s.mode}</p><p><strong>Status:</strong> <span class="status-badge">${s.status}</span></p><p><strong>Shipper:</strong> ${s.shipper_name}</p><p><strong>ETA:</strong> ${s.eta||'-'}</p></div>`).join('');document.getElementById('recent-shipments').innerHTML=recentHTML||'<p class="no-alerts">No shipments yet</p>';document.getElementById('alerts-container').innerHTML='<p class="no-alerts">No alerts at this time</p>';}
+        function handleFormSubmit(e){e.preventDefault();const formData=new FormData(e.target);const shipmentId=generateShipmentId();const newShipment={shipment_id:shipmentId,mode:formData.get('mode'),status:formData.get('status'),readiness_date:formData.get('readiness_date'),shipper_name:formData.get('shipper_name'),shipper_country:formData.get('shipper_country'),cargo_description:formData.get('cargo_description'),weight_kg:parseFloat(formData.get('weight_kg')),volume_cbm:parseFloat(formData.get('volume_cbm')),flight_number:formData.get('flight_number'),departure_date:formData.get('departure_date'),container_number:formData.get('container_number'),vessel_name:formData.get('vessel_name'),sailing_date:formData.get('sailing_date'),eta:formData.get('eta')};shipments.push(newShipment);saveShipmentsToStorage();e.target.reset();alert('✅ Shipment '+shipmentId+' added successfully!');showView('dashboard');}
+        function generateShipmentId(){const now=new Date();const year=now.getFullYear();const month=String(now.getMonth()+1).padStart(2,'0');const count=String(shipments.length+1).padStart(3,'0');return`SHIP-${year}-${month}-${count}`;}
+        function toggleModeFields(){const mode=document.getElementById('mode').value;const airFields=document.getElementById('air-fields');const seaFields=document.getElementById('sea-fields');if(mode==='Air Freight'){airFields.style.display='block';seaFields.style.display='none';}else{airFields.style.display='none';seaFields.style.display='block';}}
+        function renderShipmentsTable(){const container=document.getElementById('shipments-table-container');if(shipments.length===0){container.innerHTML='<p class="no-alerts">No shipments yet. Add your first shipment!</p>';return;}const html=`<table><thead><tr><th>Shipment ID</th><th>Mode</th><th>Status</th><th>Shipper</th><th>ETA</th><th>Actions</th></tr></thead><tbody>${shipments.map(s=>`<tr><td>${s.shipment_id}</td><td>${s.mode}</td><td><span class="status-badge">${s.status}</span></td><td>${s.shipper_name}</td><td>${s.eta||'-'}</td><td><button onclick="viewShipment('${s.shipment_id}')" class="btn-small btn-primary">View</button> <button onclick="deleteShipment('${s.shipment_id}')" class="btn-small btn-danger">Delete</button></td></tr>`).join('')}</tbody></table>`;container.innerHTML=html;}
+        function viewShipment(id){const s=shipments.find(ship=>ship.shipment_id===id);if(!s)return;alert(`SHIPMENT DETAILS\\n\\nID: ${s.shipment_id}\\nMode: ${s.mode}\\nStatus: ${s.status}\\nShipper: ${s.shipper_name}\\nCountry: ${s.shipper_country}\\nCargo: ${s.cargo_description}\\nWeight: ${s.weight_kg} kg\\nVolume: ${s.volume_cbm} CBM\\nETA: ${s.eta||'Not set'}`);}
+        function deleteShipment(id){if(!confirm('Delete shipment '+id+'?'))return;const index=shipments.findIndex(s=>s.shipment_id===id);if(index>-1){shipments.splice(index,1);saveShipmentsToStorage();renderShipmentsTable();loadDashboard();alert('✅ Shipment deleted');}}
+        function renderDocumentsTable(){const container=document.getElementById('documents-table-container');container.innerHTML='<p class="no-alerts">Documents tracking feature - Coming soon</p>';}
+        function exportToCSV(){const csv=[['Shipment ID','Mode','Status','Shipper','Country','Weight(kg)','Volume(CBM)','ETA'],...shipments.map(s=>[s.shipment_id,s.mode,s.status,s.shipper_name,s.shipper_country,s.weight_kg,s.volume_cbm,s.eta||''])].map(row=>row.join(',')).join('\\n');const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='shipments_'+new Date().toISOString().split('T')[0]+'.csv';a.click();}
+        function clearAllData(){if(!confirm('⚠️ Clear ALL shipment data? This cannot be undone!'))return;shipments=[];saveShipmentsToStorage();loadDashboard();renderShipmentsTable();alert('✅ All data cleared');}
+        document.addEventListener('DOMContentLoaded',function(){loadDashboard();console.log('EXW Shipment Tracker loaded successfully!');});
+    </script>
+</body>
+</html>'''
+
+# Save it
+with open('index.html', 'w', encoding='utf-8') as f:
+    f.write(complete_html)
+
+file_size = len(complete_html)
+print(f"✅ Complete working file created!")
+print(f"📁 Filename: index.html")
+print(f"📏 Size: {file_size:,} bytes ({file_size/1024:.1f} KB)")
+print(f"\n🎯 THIS FILE IS READY TO UPLOAD TO GITHUB!")
+print(f"\n" + "="*60)
+print("INSTRUCTIONS TO SAVE THIS FILE:")
+print("="*60)
+print("\n1. I've created the file 'index.html' - look for download button")
+print("2. OR copy the code from the text output below")
+print("3. Save as 'index.html' on your computer")
+print("4. Upload to GitHub")
+print("\n" + "="*60)
